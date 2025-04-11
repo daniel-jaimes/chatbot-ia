@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 load_dotenv()
 from flask import Flask, request, render_template
-from llama_index import SimpleDirectoryReader,  VectorStoreIndex, ServiceContext
-from llama_index.llms import OpenAI
+from llama_index.core import SimpleDirectoryReader,  VectorStoreIndex, ServiceContext
+from llama_index.llms import openai
 import os
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ def index():
 
             reader = SimpleDirectoryReader(input_dir=UPLOAD_FOLDER)
             docs = reader.load_data()
-            service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo"))
+            service_context = ServiceContext.from_defaults(llm=openai)
             index = VectorStoreIndex.from_documents(docs, service_context=service_context)
             query_engine = index.as_query_engine()
 
